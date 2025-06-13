@@ -17,6 +17,7 @@ import {
   StarIcon,
   Sparkles
 } from "lucide-react";
+import Image from "next/image";
 
 const ProgramDetailsPage = () => {
   const params = useParams();
@@ -56,7 +57,7 @@ const ProgramDetailsPage = () => {
             <div className="flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-6">              {/* User Profile */}
               <div className="flex items-center gap-3 md:gap-4">
                 <div className="w-16 h-16 md:w-20 md:h-20 rounded-full overflow-hidden border-2 border-primary/20 flex-shrink-0">
-                  <img
+                  <Image
                     src={program.profilePic}
                     alt={program.first_name}
                     className="w-full h-full object-cover"

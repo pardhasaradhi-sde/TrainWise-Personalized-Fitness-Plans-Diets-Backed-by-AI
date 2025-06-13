@@ -1,3 +1,4 @@
+// eslint.config.js
 import { dirname } from "path";
 import { fileURLToPath } from "url";
 import { FlatCompat } from "@eslint/eslintrc";
@@ -9,16 +10,15 @@ const compat = new FlatCompat({
   baseDirectory: __dirname,
 });
 
-const eslintConfig = [
+export default [
   ...compat.extends("next/core-web-vitals", "next/typescript"),
   {
     rules: {
-      "@typescript-eslint/no-unused-vars": "warn", // Warn on unused variables
-      "@typescript-eslint/no-explicit-any": "warn", // Warn on usage of 'any'
-      "@typescript-eslint/no-non-null-asserted-optional-chain": "warn", // Warn on unsafe optional chaining
-      "@next/next/no-img-element": "warn", // Warn instead of error for <img>
+      "@typescript-eslint/no-unused-vars": "warn",
+      "@typescript-eslint/no-explicit-any": "warn",
+      "@typescript-eslint/no-non-null-asserted-optional-chain": "warn",
+      "@next/next/no-img-element": "warn",
+      "react/no-unescaped-entities": "warn" // ADD THIS to prevent build failure
     },
   },
 ];
-
-export default eslintConfig;

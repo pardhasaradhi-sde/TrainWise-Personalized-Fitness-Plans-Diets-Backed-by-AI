@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowRightIcon } from "lucide-react";
 import TerminalOverlay from "@/components/terminaloverlay";
 import UserPrograms from "@/components/userprograms";
+import Image from "next/image";
 
 const Homepage = () => {
   return (
@@ -85,7 +86,7 @@ const Homepage = () => {
               {/* IMAGE CONTANINER */}
               <div className="relative aspect-square max-w-lg mx-auto">
                 <div className="relative overflow-hidden rounded-lg bg-cyber-black">
-                  <img
+                  <Image
                     src="/hero-4.png"
                     alt="AI Fitness Coach"
                     className="size-full object-cover object-center"
