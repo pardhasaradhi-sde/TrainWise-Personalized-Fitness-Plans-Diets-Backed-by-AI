@@ -134,48 +134,51 @@ Fitness goal: ${fitnessgoals}
 Fitness level: ${fitness_level} (Options: beginner, intermediate, advanced)
 
 🎯 OBJECTIVE:
-Design a **weekly workout plan** that:
-- Prioritizes **1 to 2 muscle groups per session only** — NEVER full-body routines  
-- Is progressive, safe, and tailored to the user’s fitness goal and level  
-- Avoids training the same muscle group on consecutive days  
-- Avoids exercises that could aggravate injuries
+Design a weekly workout plan that:
+- Targets **only 1 to 2 major muscle groups per workout day**
+- Includes **at least 5 and no more than 7 exercises** per day
+- Follows a progressive, safe, and goal-aligned structure based on fitness level
+- Avoids repeating major muscle groups on consecutive days
+- Excludes exercises that may aggravate reported injuries
 
 🏋️‍♂️ PROGRAM STRUCTURE:
-Follow these standards strictly:
 
-1. **Weekly Split**  
-   - Choose the best split based on available days (e.g., Push/Pull/Legs, Upper-Lower, Bro-Split)  
+1. ✅ **Weekly Split**  
+   - Select an optimal split (e.g., Push/Pull/Legs, Upper-Lower, Bro-Split) based on the available days  
    - NEVER assign full-body routines  
-   - Each session must focus on **only one or two primary muscle groups**
+   - Each session should focus on **only 1 or 2 specific muscle groups**
 
-2. **Exercise Selection Based on Level**
-   - **Beginner**: Machine-based, bodyweight or stable movements, simple mechanics  
-   - **Intermediate**: Compound + isolation mix, moderate complexity  
-   - **Advanced**: High volume, progressive overload, supersets or drop sets allowed
+2. ✅ **Exercise Selection Based on Level**
+   - **Beginner**: Bodyweight, machine-based, or simple movements  
+   - **Intermediate**: Balanced compound and isolation exercises  
+   - **Advanced**: Include progressive overload, supersets, drop sets, higher volume
 
-3. **Reps & Sets Based on Fitness Goal**
-   - **Fat loss**: Circuits or supersets, 12–15 reps  
-   - **Muscle gain**: 8–12 reps, with progressive overload  
-   - **Strength**: 4–6 reps, fewer exercises, more rest  
-   - **General fitness**: 8–12 reps, moderate volume
+3. ✅ **Reps & Sets Based on Goal**
+   - **Fat Loss**: 12–15 reps  
+   - **Muscle Gain**: 8–12 reps  
+   - **Strength**: 4–6 reps  
+   - **General Fitness**: 8–12 reps
 
-4. **Workout Day Rules**
-   - Begin each workout with compound movements  
-   - Follow with isolation work  
-   - Never repeat major muscles two days in a row
+4. ✅ **Workout Day Rules**
+   - Start with compound lifts  
+   - Follow with isolation exercises  
+   - Avoid repeating the same muscle group two days in a row
 
 ⚠️ CRITICAL SCHEMA INSTRUCTIONS:
-- Your output MUST follow the exact JSON structure below
-- "sets" and "reps" MUST always be NUMBERS — not strings, descriptions, or text
-- For cardio or circuits, use valid numbers like "sets": 1, "reps": 1
-
-🚫 DO NOT include:
-- Extra fields (like rest time, intensity, duration, equipment, notes, etc.)
-- Any text outside the required JSON structure
+- Your response MUST use ONLY the JSON format shown below  
+- Each workout day must include **between 5 to 7 exercises**  
+- "sets" and "reps" MUST be numbers (e.g., "sets": 3, "reps": 10) — NO text or descriptions  
+- DO NOT include any other fields such as:  
+  ❌ rest  
+  ❌ duration  
+  ❌ intensity  
+  ❌ notes  
+  ❌ calories  
+  ❌ equipment  
 
 ============================================================
 
-Return a valid JSON object using this **exact schema**:
+Return a valid JSON object using **this exact format**:
 
 {
   "schedule": ["Monday", "Wednesday", "Friday"],
@@ -187,6 +190,36 @@ Return a valid JSON object using this **exact schema**:
           "name": "Exercise Name",
           "sets": 3,
           "reps": 10
+        },
+        {
+          "name": "Second Exercise",
+          "sets": 3,
+          "reps": 10
+        },
+        {
+          "name": "Third Exercise",
+          "sets": 3,
+          "reps": 10
+        },
+        {
+          "name": "Fourth Exercise",
+          "sets": 3,
+          "reps": 10
+        },
+        {
+          "name": "Fifth Exercise",
+          "sets": 3,
+          "reps": 10
+        },
+        {
+          "name": "Sixth Exercise (optional)",
+          "sets": 3,
+          "reps": 10
+        },
+        {
+          "name": "Seventh Exercise (optional)",
+          "sets": 3,
+          "reps": 10
         }
       ]
     }
@@ -195,13 +228,15 @@ Return a valid JSON object using this **exact schema**:
 
 ============================================================
 
-❗IMPORTANT:
-- Each day must target **no more than 2 muscle groups**
-- NO full-body workouts allowed
-- NO extra fields outside "day", "name", "sets", and "reps"
-- Output ONLY the JSON object — no extra text, no markdown, no explanations
+❗FINAL RULES:
+- Each day MUST contain **at least 5 and no more than 7 exercises**  
+- Target only **1–2 muscle groups per session**  
+- NO full-body workouts allowed  
+- DO NOT include any fields other than: "day", "name", "sets", and "reps"  
+- Return ONLY the valid JSON — no extra text, markdown, or explanation
 
-Now based on the user profile, return a professionally structured split workout plan targeting 1–2 muscle groups per day.`;
+Now, based on the user profile, return a **professional, high-performance workout split** using the format above.`;
+
 
             const workoutResult = await model.generateContent(workoutPrompt);
             const workoutPlanText = workoutResult.response.text();
@@ -212,59 +247,69 @@ Now based on the user profile, return a professionally structured split workout 
 
             const dietPrompt = `You are a highly experienced, certified professional nutrition coach and sports dietician. Your task is to generate a **personalized, practical, and culturally grounded Indian diet plan** based on the user's profile.
 
-User profile:  
+User Profile:  
 Age: ${age}  
 Height: ${height}  
 Weight: ${weight}  
-Fitness goal: ${fitnessgoals}  
-Dietary restrictions: ${dietary_preferences}
+Fitness Goal: ${fitnessgoals}  
+Dietary Restrictions: ${dietary_preferences}
 
 🎯 OBJECTIVE:
-Design a **goal-oriented daily meal plan** tailored specifically to the user's needs (e.g., fat loss, muscle gain, or maintenance), using only foods that are common in Indian households.
+Design a **goal-oriented daily meal plan** tailored to the user's needs (e.g., fat loss, muscle gain, or maintenance), using only foods that are widely available in Indian households and practical for a middle-class lifestyle.
 
 As a top-level professional, ensure the following:
-- ✅ Accurately calculate total daily calorie needs based on age, height, weight, and goal using standard nutritional formulas (e.g., Mifflin-St Jeor or equivalent)
-- ✅ Align meals with the user’s fitness goal: energy deficit for fat loss, surplus for muscle gain, maintenance for balance
-- ✅ Ensure nutritional completeness — each meal should reflect proper **macronutrient balance** (carbs, protein, fats)
-- ✅ Recommend only **readily available Indian foods** — use ingredients found in a middle-class Indian household
-- ✅ Honor all **dietary restrictions** strictly (vegetarian, gluten-free, lactose-free, etc.)
-- ✅ Ensure **food diversity** — avoid repetition across meals
-- ✅ Suggest foods that also support digestive health and long-term sustainability
-- ✅ Consider cultural taste preferences and seasonal adaptability
+- ✅ Accurately estimate daily calorie needs based on age, height, weight, and goal using standard nutrition formulas (e.g., Mifflin-St Jeor or similar)
+- ✅ Align the total calorie target with the user’s goal: deficit (fat loss), surplus (muscle gain), or maintenance
+- ✅ Ensure all meals are nutritionally complete with balanced carbohydrates, protein, and healthy fats
+- ✅ ONLY use culturally relevant, affordable Indian household foods — avoid imported, exotic, or expensive items
+- ✅ Strictly respect any dietary restrictions (e.g., vegetarian, gluten-free, lactose-free)
+- ✅ Avoid food repetition between meals — ensure diversity and meal satisfaction
+- ✅ Include 6 total meals: Breakfast, Pre-workout, Lunch, Snack, Post-workout, and Dinner
+- ✅ Include **at least 5 items** per meal to support variety, fullness, and nutritional adequacy
+- ✅ All meals should support digestion, cultural preference, and long-term adherence
 
 🚫 DO NOT include:
-- Exotic, foreign, or expensive ingredients like quinoa, kale, tofu, almond milk, protein powders, salmon, etc.
-- Supplements, macros, timing, portion sizes, calorie breakdowns, or explanations
+- Supplements, protein powders, or calorie/macro breakdowns
+- Portion sizes, nutrient labels, or cooking methods
+- Any foreign foods like kale, tofu, quinoa, avocados, almond milk, salmon, etc.
 
 ⚠️ CRITICAL SCHEMA INSTRUCTIONS:
-- Your output MUST strictly follow this JSON format
-- dailyCalories must be a NUMBER (not a string or label)
-- Each meal object must contain ONLY:
-  • "name": the name of the meal (e.g., "Breakfast")
-  • "foods": an array of food item strings
+- Your output MUST follow the JSON format below with NO extra fields or text
+- The field \`dailyCalories\` MUST be a NUMBER
+- Each item in \`meals\` MUST follow this schema:
+  • \`name\`: (e.g., "Breakfast", "Lunch", etc.)
+  • \`foods\`: an array of STRINGS ONLY (at least 5 per meal)
 
 ============================================================
 
-Return a valid JSON object using **this exact structure**:
+Return a valid JSON object using THIS EXACT STRUCTURE:
 
 {
   "dailyCalories": 2000,
   "meals": [
     {
       "name": "Breakfast",
-      "foods": ["Oats with banana", "Boiled eggs", "Masala chai (no sugar)"]
+      "foods": ["Poha with peanuts", "Boiled eggs", "Masala chai (no sugar)", "Banana", "Curd"]
+    },
+    {
+      "name": "Pre-workout",
+      "foods": ["Banana", "Handful of soaked almonds", "Black coffee", "Dalia", "Water"]
     },
     {
       "name": "Lunch",
-      "foods": ["Roti with dal", "Mixed vegetable sabzi", "Curd"]
+      "foods": ["Chapati", "Toor dal", "Mixed vegetable curry", "Curd", "Salad with cucumber and carrot"]
     },
     {
       "name": "Snack",
-      "foods": ["Handful of peanuts", "Buttermilk"]
+      "foods": ["Roasted chana", "Buttermilk", "Peanut chikki", "Fruit salad", "Lemon water"]
+    },
+    {
+      "name": "Post-workout",
+      "foods": ["Boiled eggs", "Sprouted moong salad", "Coconut water", "Chickpeas", "Apple"]
     },
     {
       "name": "Dinner",
-      "foods": ["Steamed rice", "Grilled paneer", "Spinach sabzi"]
+      "foods": ["Steamed rice", "Palak paneer", "Tinda sabzi", "Cucumber raita", "Ghee-roasted papad"]
     }
   ]
 }
@@ -272,12 +317,13 @@ Return a valid JSON object using **this exact structure**:
 ============================================================
 
 🔒 FINAL INSTRUCTIONS:
-- DO NOT add any fields or metadata outside the above JSON format
-- DO NOT include any text outside the JSON block
-- All values in "foods" must be strings (no objects or explanations)
-- Use ONLY culturally relevant Indian foods, as found in typical home-cooked meals
+- DO NOT include any markdown, comments, or additional text outside the JSON block
+- DO NOT use any nested objects, notes, or explanations in \`foods\`
+- DO NOT add or remove any fields beyond what is shown in the example above
+- Stick strictly to **Indian food culture**, home-cooked practicality, and middle-class accessibility
 
-Now, based on the user profile provided, generate a highly effective and Indian household-friendly diet plan that aligns with the goal and fits real-life application.`;
+Now based on the provided user profile, return a **goal-specific, realistic, Indian household-friendly** 6-meal plan using the schema above.`;
+
 
             const dietResult = await model.generateContent(dietPrompt);
             const dietPlanText = dietResult.response.text();
