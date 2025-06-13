@@ -10,7 +10,7 @@ const ProgramPage = () => {
   const [callActive, setCallActive] = useState(false);
   const [connecting, setConnecting] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState<any[]>([]);
   const [callEnded, setCallEnded] = useState(false);
   const { user } = useUser();
   const router = useRouter();
@@ -58,7 +58,26 @@ const ProgramPage = () => {
       console.log("AI stopped Speaking");
       setIsSpeaking(false);
     };
-    const handleMessage = (message: any) => {};
+    const handleMessage = (message: any) => {
+      if (message.type === "transcript" && message.transcriptType === "final") {
+        const newMessage = { content: message.transcript, role: message.role };
+        
+        setMessages((prev) => {
+          // If the last message has the same role, append to it
+          if (prev.length > 0 && prev[prev.length - 1].role === newMessage.role) {
+            const updatedMessages = [...prev];
+            updatedMessages[updatedMessages.length - 1] = {
+              ...updatedMessages[updatedMessages.length - 1],
+              content: updatedMessages[updatedMessages.length - 1].content + " " + newMessage.content
+            };
+            return updatedMessages;
+          } else {
+            // Different role, create new message
+            return [...prev, newMessage];
+          }
+        });
+      }
+    };
 
     const handleError = (error: any) => {
       console.log("Vapi Error", error);
@@ -237,6 +256,36 @@ const ProgramPage = () => {
             </div>
           </Card>
         </div>
+        {/* message container */}
+        {messages.length > 0 && (
+          <div
+            ref={messageContainerref}
+            className="w-full bg-card/90 backdrop-blur-sm border border-border rounded-xl p-4 mb-8 h-64 overflow-y-auto transition-all duration-300 scroll-smooth"
+          >
+            <div className="space-y-3">
+              {messages.map((msg, index) => (
+                <div key={index} className="message-item animate-fadeIn">
+                  <div className="font-semibold text-xs text-muted-foreground mb-1">
+                    {msg.role === "assistant" ? "TrainWise AI" : "You"}:
+                  </div>
+                  <p className="text-foreground">{msg.content}</p>
+                </div>
+              ))}
+
+              {callEnded && (
+                <div className="message-item animate-fadeIn">
+                  <div className="font-semibold text-xs text-primary mb-1">
+                    System:
+                  </div>
+                  <p className="text-foreground">
+                    Your fitness program has been created! Redirecting to your
+                    profile...
+                  </p>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
         {/* call controls */}
         <div className="w-full flex justify-center gap-4">
           <Button
