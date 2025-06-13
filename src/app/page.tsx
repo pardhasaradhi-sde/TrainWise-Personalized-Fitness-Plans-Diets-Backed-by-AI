@@ -1,9 +1,7 @@
 "use client";
-import { SignedIn, SignedOut, SignInButton } from "@clerk/clerk-react";
-import { SignOutButton } from "@clerk/nextjs";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { ArrowRightIcon, Terminal } from "lucide-react";
+import { ArrowRightIcon } from "lucide-react";
 import TerminalOverlay from "@/components/terminaloverlay";
 import UserPrograms from "@/components/userprograms";
 
