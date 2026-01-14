@@ -89,6 +89,8 @@ const UserPrograms = () => {
                     <Image
                       src={program.profilePic}
                       alt={`${program.first_name}`}
+                      width={200}
+                      height={200}
                       className="h-full w-full object-cover"
                     />
                   </div>

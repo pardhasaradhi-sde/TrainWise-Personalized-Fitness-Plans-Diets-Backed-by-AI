@@ -6,15 +6,27 @@ import { clear } from "console";
 import { useRouter } from "next/navigation";
 import { use, useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
+import GenerateProgramLoading from "./loading";
+
 const ProgramPage = () => {
   const [callActive, setCallActive] = useState(false);
   const [connecting, setConnecting] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [messages, setMessages] = useState<any[]>([]);
   const [callEnded, setCallEnded] = useState(false);
+  const [isInitializing, setIsInitializing] = useState(true);
   const { user } = useUser();
   const router = useRouter();
   const messageContainerref = useRef<HTMLDivElement>(null);
+
+  // Show loading screen initially
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsInitializing(false);
+    }, 1000);
+    return () => clearTimeout(timer);
+  }, []);
+
   //autoscroll messages
   useEffect(() => {
     if (messageContainerref.current) {
@@ -135,6 +147,10 @@ const ProgramPage = () => {
       }
     }
   };
+
+  if (isInitializing) {
+    return <GenerateProgramLoading />;
+  }
 
   return (
     <div className="flex flex-col min-h-screen text-foreground overflow-hidden pb-6 pt-24">

@@ -4,6 +4,8 @@ import "./globals.css";
 import ConvexClerkProvider from "@/providers/ConvexClerkProvider";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
+import RouteLoader from "@/components/routeloader";
+import { Suspense } from "react";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -30,6 +32,9 @@ export default function RootLayout({
       <html lang="en">
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+            <Suspense fallback={null}>
+              <RouteLoader />
+            </Suspense>
             <Navbar/>
             <div className="fixed inset-0 -z-1">
             <div className="absolute inset-0 bg-gradient-to-b from-background via-background to-background"></div>

@@ -5,8 +5,23 @@ import { ArrowRightIcon } from "lucide-react";
 import TerminalOverlay from "@/components/terminaloverlay";
 import UserPrograms from "@/components/userprograms";
 import Image from "next/image";
+import { useEffect, useState } from "react";
+import LoadingSpinner from "@/components/loadingspinner";
 
 const Homepage = () => {
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 600);
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
+
   return (
     <div className="flex flex-col min-h-screen text-foreground overflow-hidden">
       <section className="relative z-10 py-24 flex-grow px-2 md:px-6 xl:px-16">
@@ -89,6 +104,8 @@ const Homepage = () => {
                   <Image
                     src="/hero-4.png"
                     alt="AI Fitness Coach"
+                    width={300}
+                    height={300}
                     className="size-full object-cover object-center"
                   />
                   {/* scan line */}

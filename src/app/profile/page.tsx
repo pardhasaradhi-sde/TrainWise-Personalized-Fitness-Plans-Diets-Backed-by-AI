@@ -16,6 +16,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import ProfileLoading from "./loading";
 
 const Profilepage = () => {
   const { user } = useUser();
@@ -27,6 +28,11 @@ const Profilepage = () => {
   const currentPlan = selectedPlanId
     ? allPlans?.find((plan) => plan._id === selectedPlanId)
     : activePlan;
+
+  // Show loading screen while data is being fetched
+  if (allPlans === undefined) {
+    return <ProfileLoading />;
+  }
 
   return (
     <section className="relative z-10 pt-12 pb-32 flex-grow container mx-auto px-4">

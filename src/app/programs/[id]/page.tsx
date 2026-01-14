@@ -18,13 +18,28 @@ import {
   Sparkles
 } from "lucide-react";
 import Image from "next/image";
+import { useEffect, useState } from "react";
+import ProgramLoading from "./loading";
 
 const ProgramDetailsPage = () => {
   const params = useParams();
   const programId = parseInt(params.id as string);
+  const [isLoading, setIsLoading] = useState(true);
+  
+  // Simulate loading for better UX
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 800);
+    return () => clearTimeout(timer);
+  }, [programId]);
   
   // Find the program by ID
   const program = USER_PROGRAMS.find(p => p.id === programId);
+
+  if (isLoading) {
+    return <ProgramLoading />;
+  }
 
   if (!program) {
     return (
@@ -60,6 +75,8 @@ const ProgramDetailsPage = () => {
                   <Image
                     src={program.profilePic}
                     alt={program.first_name}
+                    width={250}
+                    height={250}
                     className="w-full h-full object-cover"
                   />
                 </div>
